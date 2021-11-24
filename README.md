@@ -8,4 +8,4 @@ A Streamlit data app for scraping texts from urls and training a word2vec model.
 - Extraction of sentences of words
 - Cleanup of scraped sentences
 - Training of word2vec model
-- Persists the model and offer the download
+- Persists the model and offer as download
