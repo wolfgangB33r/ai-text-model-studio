@@ -3,7 +3,7 @@
 A Streamlit data app for scraping texts from urls and training a word2vec model.
 Read the companion [blog](https://www.smartlab.at/?p=9128)
 
-## Features
+## Features 
 
 - Automatic scraping of texts from given Web urls
 - Extraction of sentences of words
