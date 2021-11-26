@@ -90,12 +90,12 @@ inject('<script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/1
 
 st.title('Text Scraping and Model Studio')
 
-st.markdown('Data application for scraping Web texts from given Urls for the purpose of training word embedding models. Source at [GitHub](https://github.com/wolfgangB33r/??), read the companion [blog](https://www.smarlab.at).')
+st.markdown('Data application for scraping Web texts from given Urls for the purpose of training word embedding models. Source at [GitHub](https://github.com/wolfgangB33r/ai-text-model-studio), read the companion [blog](https://www.smartlab.at/?p=9128).')
 
 st.subheader('Web text scraping')
 st.markdown('Enter a Web Url below and start scraping all visual texts from that page.')
 max_links = st.slider('Maximum number of links to follow', 0, 100, 10)
-scraping_url = st.text_input('Url to scrape texts from', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
+scraping_url = st.text_input('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
 
 st.subheader('Text cleaning')
 ignore_stop_words = st.checkbox('Ignore stopwords?', value = True)
@@ -152,7 +152,7 @@ if trainbutton:
 
 st.subheader('Evaluate the trained model')
 st.markdown('Find the top-100 most similar words to the given word below.')
-test_word = st.text_input('Check most similar words for')
+test_word = st.text_input('Check most similar words for', 'sister')
 if test_word:
     if 'model' in st.session_state:
         if test_word.lower() in st.session_state['model'].wv:
