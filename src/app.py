@@ -28,8 +28,6 @@ def inject(tag):
 st.session_state['stopwords'] = {'also', 'often', 'may', 'use', 'within', 'ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 'into', 'of', 'most', 'itself', 'other', 'off', 'is', 's', 'am', 'or', 'who', 'as', 'from', 'him', 'each', 'the', 'themselves', 'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 'don', 'nor', 'me', 'were', 'her', 'more', 'himself', 'this', 'down', 'should', 'our', 'their', 'while', 'above', 'both', 'up', 'to', 'ours', 'had', 'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 'and', 'been', 'have', 'in', 'will', 'on', 'does', 'yourselves', 'then', 'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not', 'now', 'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 'myself', 'which', 'those', 'i', 'after', 'few', 'whom', 't', 'being', 'if', 'theirs', 'my', 'against', 'a', 'by', 'doing', 'it', 'how', 'further', 'was', 'here', 'than'} 
 st.session_state['ignore_stop_words'] = True
 
-url_scrape_stats = []
-
 def text_to_words(raw_text, remove_stopwords=True):
     # 1. Remove non-letters, but including numbers
     letters_only = re.sub("[^0-9a-zA-Z]", " ", raw_text)
@@ -58,7 +56,9 @@ def fill_scrape_stats(url, result):
         word_count = word_count + len(s)
         for w in s:
             char_count = char_count + len(w)
-    url_scrape_stats.append({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
+    if 'url_scrape_stats' in st.session_state:
+        print({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
+        st.session_state['url_scrape_stats'].append({'Url' : url, 'Characters' : char_count, 'Words' : word_count, 'Sentences' : len(result)})
 
 def crawler(url, maxurls, pages_crawled):
     page = requests.get(url)
@@ -95,7 +95,7 @@ st.markdown('Data application for scraping Web texts from given Urls for the pur
 st.subheader('Web text scraping')
 st.markdown('Enter a Web Url below and start scraping all visual texts from that page.')
 max_links = st.slider('Maximum number of links to follow', 0, 100, 1)
-scraping_url = st.text_input('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
+scraping_url = st.text_area('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
 
 st.subheader('Text cleaning')
 ignore_stop_words = st.checkbox('Ignore stopwords?', value = True)
@@ -114,8 +114,14 @@ scrapebutton = st.button('Start scraping')
     
 
 if scrapebutton:
-    st.session_state['sentences'] = crawler(scraping_url, maxurls = max_links, pages_crawled = [])
-    df = st.dataframe(url_scrape_stats)
+    st.session_state['url_scrape_stats'] = []
+    urls = scraping_url.splitlines()
+    st.session_state['sentences'] = []
+    for url in urls:
+        st.session_state['sentences'].extend(crawler(url, maxurls = max_links, pages_crawled = []))
+        print(len(st.session_state['sentences']))
+    if 'url_scrape_stats' in st.session_state:
+        df = st.dataframe(st.session_state['url_scrape_stats'])
     base64_str = base64.b64encode(str(st.session_state['sentences']).encode('utf-8')).decode()
     href = f'<a href="data:file/output_model;base64,{base64_str}" download="sentences.txt">Download scraped sentences as JSON file</a>'
     st.markdown(href, unsafe_allow_html=True)
