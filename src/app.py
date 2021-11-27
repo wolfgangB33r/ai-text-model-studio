@@ -90,7 +90,7 @@ inject('<script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/1
 
 st.title('Text Scraping and Model Studio')
 
-st.markdown('Data application for scraping Web texts from given Urls for the purpose of training word embedding models. Source at [GitHub](https://github.com/wolfgangB33r/ai-text-model-studio), read the companion [blog](https://www.smartlab.at/?p=9128).')
+st.markdown('Data application for scraping Web texts from given Urls for the purpose of training word embedding models. Source at [GitHub](https://github.com/wolfgangB33r/ai-text-model-studio), read the companion [blog](https://www.smartlab.at/web-text-scraping-and-ai-model-training-with-streamlit/).')
 
 st.subheader('Web text scraping')
 st.markdown('Enter a Web Url below and start scraping all visual texts from that page.')
