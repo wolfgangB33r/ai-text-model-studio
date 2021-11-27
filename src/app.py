@@ -94,7 +94,7 @@ st.markdown('Data application for scraping Web texts from given Urls for the pur
 
 st.subheader('Web text scraping')
 st.markdown('Enter a Web Url below and start scraping all visual texts from that page.')
-max_links = st.slider('Maximum number of links to follow', 0, 100, 10)
+max_links = st.slider('Maximum number of links to follow', 0, 100, 1)
 scraping_url = st.text_input('Url to scrape texts from (e.g.: texts from the book Pride And Prejudice)', 'https://www.gutenberg.org/cache/epub/1342/pg1342.html')
 
 st.subheader('Text cleaning')
